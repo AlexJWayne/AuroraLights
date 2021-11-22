@@ -1,6 +1,6 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
-  "pluginType": "platform",
+  "pluginAlias": "AuroraLights",
+  "pluginType": "accessory",
   "singular": true,
   "schema": {
     "type": "object",
@@ -9,7 +9,19 @@
         "title": "Name",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "Aurora Lights"
+      },
+      "particleAccessToken": {
+        "title": "Particle Access Token",
+        "type": "string",
+        "required": true,
+        "default": ""
+      },
+      "deviceId": {
+        "title": "Particle Device ID",
+        "type": "string",
+        "required": true,
+        "default": ""
       }
     }
   }
