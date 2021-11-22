@@ -13,7 +13,7 @@
   "rules": {
     "quotes": ["warn", "single"],
     "indent": ["warn", 2, { "SwitchCase": 1 }],
-    "semi": ["never"],
+    "semi": ["warn", "never"],
     "comma-dangle": ["warn", "always-multiline"],
     "dot-notation": "off",
     "eqeqeq": "warn",

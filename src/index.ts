@@ -39,7 +39,7 @@ interface ParticleVarResponse<T> {
 }
 
 class AuroraLights {
-  name: string = 'AuroraLights'
+  name = 'AuroraLights'
 
   readonly log: Logger
   readonly config: AuroraConfig
@@ -89,7 +89,7 @@ class AuroraLights {
     ]
   }
 
-  private async callFn(name: string, argument: string = '') {
+  private async callFn(name: string, argument = '') {
     await particle.callFunction({
       deviceId: this.config.deviceId,
       auth: this.config.particleAccessToken,
@@ -110,17 +110,22 @@ class AuroraLights {
 
   async getPowerStatus(forMode: number): Promise<boolean> {
     const currentMode = await this.getVar<number>('mode')
-    if (forMode === currentMode) return this.getVar<boolean>('isOn')
+    if (forMode === currentMode) {
+      return this.getVar<boolean>('isOn')
+    }
     return false
   }
 
   async setPowerStatus(forMode: number, value: CharacteristicValue) {
-    if (typeof value !== 'boolean') return
+    if (typeof value !== 'boolean') {
+      return
+    }
 
     // Turn off other unused services
     for (const [mode, service] of this.patternServices.entries()) {
-      if (forMode !== mode)
+      if (forMode !== mode) {
         service.updateCharacteristic(hap.Characteristic.On, false)
+      }
     }
 
     // Switch to the right mode.
@@ -133,7 +138,9 @@ class AuroraLights {
   }
 
   setBrightness(value: CharacteristicValue) {
-    if (typeof value !== 'number') return
+    if (typeof value !== 'number') {
+      return
+    }
     const brightnessAsByte = Math.round((value / 100) * 255)
     this.callFn('setBright', brightnessAsByte.toString())
   }
