@@ -47,7 +47,7 @@ class AuroraLights {
 
   informationService: Service
 
-  patternServices: Map<number, Service>
+  patternServices: Map<number, Service> = new Map()
 
   constructor(log: Logger, config: AccessoryConfig, api: API) {
     this.log = log
@@ -79,14 +79,31 @@ class AuroraLights {
       .onGet(() => this.getBrightness())
       .onSet((value) => this.setBrightness(value))
 
+    service
+      .getCharacteristic(hap.Characteristic.Hue)
+      .onGet(() => this.getHue())
+      .onSet((value) => this.setHue(value))
+
+    service
+      .getCharacteristic(hap.Characteristic.Saturation)
+      .onGet(() => this.getSaturation())
+      .onSet((value) => this.setSaturation(value))
+
     return service
   }
 
   getServices() {
-    return [
-      this.informationService, //
-      ...this.patternServices.values(),
-    ]
+    return [this.informationService, ...this.patternServices.values()]
+    // if (this.patternServices.size > 0) {
+    // }
+
+    // const modeCount = await this.getVar<number>('modeCount')
+    // for (let i = 0; i < modeCount; i++){
+    //   const name = await this.getVar<string>(`modeName${i}`)
+    //   this.patternServices.set(i, this.createPatternService(name, i))
+    // }
+
+    // return this.getServices()
   }
 
   private async callFn(name: string, argument = '') {
@@ -109,10 +126,8 @@ class AuroraLights {
   }
 
   async getPowerStatus(forMode: number): Promise<boolean> {
-    const currentMode = await this.getVar<number>('mode')
-    if (forMode === currentMode) {
-      return this.getVar<boolean>('isOn')
-    }
+    const currentMode = await this.getVar<number>('currentMode')
+    if (forMode === currentMode) return this.getVar<boolean>('isOn')
     return false
   }
 
@@ -133,15 +148,35 @@ class AuroraLights {
   }
 
   async getBrightness() {
-    const brightnessAsByte = await this.getVar<number>('bright')
+    const brightnessAsByte = await this.getVar<number>('brightness')
     return Math.round((brightnessAsByte / 255) * 100)
   }
 
   setBrightness(value: CharacteristicValue) {
-    if (typeof value !== 'number') {
-      return
-    }
+    if (typeof value !== 'number') return
     const brightnessAsByte = Math.round((value / 100) * 255)
-    this.callFn('setBright', brightnessAsByte.toString())
+    this.callFn('setBrightness', brightnessAsByte.toString())
+  }
+
+  async getSaturation() {
+    const saturationAsByte = await this.getVar<number>('sat')
+    return Math.round((saturationAsByte / 255) * 100)
+  }
+
+  setSaturation(value: CharacteristicValue) {
+    if (typeof value !== 'number') return
+    const saturationAsByte = Math.round((value / 100) * 255)
+    this.callFn('setSat', saturationAsByte.toString())
+  }
+
+  async getHue() {
+    const hueAsByte = await this.getVar<number>('hue')
+    return Math.round((hueAsByte / 255) * 360)
+  }
+
+  setHue(value: CharacteristicValue) {
+    if (typeof value !== 'number') return
+    const HueAsByte = Math.round((value / 100) * 255)
+    this.callFn('setHue', HueAsByte.toString())
   }
 }
