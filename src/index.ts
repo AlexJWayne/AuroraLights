@@ -176,7 +176,7 @@ class AuroraLights {
 
   setHue(value: CharacteristicValue) {
     if (typeof value !== 'number') return
-    const HueAsByte = Math.round((value / 100) * 255)
+    const HueAsByte = Math.round((value / 360) * 255)
     this.callFn('setHue', HueAsByte.toString())
   }
 }

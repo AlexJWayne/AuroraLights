@@ -2,7 +2,7 @@
   "private": false,
   "displayName": "Aurora Lights",
   "name": "@alexjwayne/homebridge-aurora-lights",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Home made Light strands.",
   "license": "Apache-2.0",
   "repository": {
