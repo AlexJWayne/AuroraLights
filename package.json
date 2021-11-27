@@ -2,7 +2,7 @@
   "private": false,
   "displayName": "Aurora Lights",
   "name": "@alexjwayne/homebridge-aurora-lights",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Home made Light strands.",
   "license": "Apache-2.0",
   "repository": {
@@ -15,10 +15,9 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint src/**.ts",
     "watch": "npm run build && npm link && nodemon",
     "build": "rimraf ./dist && tsc",
-    "prepublishOnly": "npm run lint && npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "homebridge-plugin"
